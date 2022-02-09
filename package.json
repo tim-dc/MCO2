@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/tim-dc/MCO2#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "express-handlebars": "^6.0.2",
+    "hbs": "^4.2.0"
   }
 }
