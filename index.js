@@ -4,8 +4,9 @@ const path = require('path');
 const routes = require('./routes/routes.js');
 const {engine} = require('express-handlebars');
 
-
 const mco2 = express();
+
+
 
 mco2.engine('handlebars', engine());
 mco2.set('view engine', 'handlebars');
@@ -19,67 +20,39 @@ mco2.listen(8080, 'localhost', ()=>{
 mco2.use('/',routes);
 
 //  SQL CONNECTION -----------
+const mysql = require('mysql2');
+const mysqlpromise = require('mysql2/promise');
 
-const mysql = require('mysql2/promise');
-const config = require('./config');
 
-async function createOrder() {
-  const items = ['RI0002', 'CB0004']
-  const connection = await mysql.createConnection(config.db);
+const { db1 } = require('./config/node2'); // Node1
+const { db2 } = require('./config/node2'); // Node2
 
-  connection.connect((err) => {
-      if(err){
-          throw err;
-      }
-      else{
-          console.log('mySQL connected!');
-      }
-  });
-  
-  await connection.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
-  console.log('Finished setting the isolation level to read committed');
-  //set wait timeout and lock wait timeout as per need.
-  await connection.beginTransaction();
-  try {
-    await connection.execute('SELECT id, name FROM product WHERE sku IN (?, ?) FOR UPDATE', items);
-    console.log(`Locked rows for skus ${items.join()}`);
-    const [itemsToOrder,] = await connection.execute(
-      'SELECT name, quantity, price from product WHERE sku IN (?, ?) ORDER BY id',
-      items
-    );
-    console.log('Selected quantities for items');
-    let orderTotal = 0;
-    let orderItems = [];
-    for (itemToOrder of itemsToOrder) {
-      if (itemToOrder.quantity < 1) {
-        throw new Error(`One of the items is out of stock ${itemToOrder.name}`);
-      }
-      console.log(`Quantity for ${itemToOrder.name} is ${itemToOrder.quantity}`);
-      orderTotal += itemToOrder.price;
-      orderItems.push(itemToOrder.name);
+
+const node2 = mysql.createConnection(db2);
+
+// NODE 2 CONNECTION
+node2.connect(function(err) {
+    if (err) {
+      return console.error('error: ' + err.message);
     }
-    await connection.execute(
-      'INSERT INTO sales_order (items, total) VALUES (?, ?)', 
-      [orderItems.join(), orderTotal]
-    )
-    console.log(`Order created`);
-    await connection.execute(
-      `UPDATE product SET quantity=quantity - 1 WHERE sku IN (?, ?)`,
-      items
-    );
-    console.log(`Deducted quantities by 1 for ${items.join()}`);
-    await connection.commit();
-    const [rows,] = await connection.execute('SELECT LAST_INSERT_ID() as order_id');
-    return `order created with id ${rows[0].order_id}`;
-  } catch (err) {
-    console.error(`Error occurred while creating order: ${err.message}`, err);
-    connection.rollback();
-    console.info('Rollback successful');
-    return 'error creating order';
-  }
-}
+  
+    // NODE 2 CONNECTION
+    console.log('Node2 is Active.');
+  });
 
-(async function testOrderCreate() {
-  console.log(await createOrder());
-  process.exit(0);
-})();
+
+// Query
+
+node2.execute("SELECT * FROM movies WHERE movie_id=?",[6],(err,result)=>{
+    console.log(result);
+});
+
+
+
+// Close Database
+// node2.end(function(err) {
+//     if (err) {
+//       return console.log('error:' + err.message);
+//     }
+//     console.log('Node 2 Closed');
+// });
