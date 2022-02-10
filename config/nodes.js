@@ -25,6 +25,18 @@ const config = {
     debug: env.DB_DEBUG || false
     
   },
+
+  db3: {
+    host: env.DB_HOST || '',
+    user: env.DB_USER || '',
+    password: env.DB_PASSWORD || '',
+    database: env.DB_NAME || '',
+    waitForConnections: true,
+    connectionLimit: env.DB_CONN_LIMIT || 3,
+    queueLimit: 0,
+    debug: env.DB_DEBUG || false
+    
+  },
 };
   
 module.exports = config;

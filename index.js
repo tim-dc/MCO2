@@ -22,13 +22,11 @@ mco2.use('/',routes);
 //  SQL CONNECTION -----------
 const mysql = require('mysql2');
 const mysqlpromise = require('mysql2/promise');
+const config = require('./config/nodes'); // nodes
 
-
-const { db1 } = require('./config/node2'); // Node1
-const { db2 } = require('./config/node2'); // Node2
-
-
-const node2 = mysql.createConnection(db2);
+const node1 = mysql.createConnection(config.db1);
+const node2 = mysql.createConnection(config.db2);
+const node3 = mysql.createConnection(config.db3);
 
 // NODE 2 CONNECTION
 node2.connect(function(err) {
@@ -42,17 +40,7 @@ node2.connect(function(err) {
 
 
 // Query
-
 node2.execute("SELECT * FROM movies WHERE movie_id=?",[6],(err,result)=>{
     console.log(result);
 });
 
-
-
-// Close Database
-// node2.end(function(err) {
-//     if (err) {
-//       return console.log('error:' + err.message);
-//     }
-//     console.log('Node 2 Closed');
-// });
