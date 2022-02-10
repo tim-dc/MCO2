@@ -26,6 +26,16 @@ const config = require('./config');
 async function createOrder() {
   const items = ['RI0002', 'CB0004']
   const connection = await mysql.createConnection(config.db);
+
+  connection.connect((err) => {
+      if(err){
+          throw err;
+      }
+      else{
+          console.log('mySQL connected!');
+      }
+  });
+  
   await connection.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
   console.log('Finished setting the isolation level to read committed');
   //set wait timeout and lock wait timeout as per need.
