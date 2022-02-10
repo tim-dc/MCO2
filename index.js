@@ -36,7 +36,7 @@ node1.connect(function(err) {
   
     // NODE 2 CONNECTION
     console.log('Node2 is Active.');
-  });
+});
 
 
 // Query
