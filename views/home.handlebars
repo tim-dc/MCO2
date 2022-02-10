@@ -1,20 +1,58 @@
-<div class="container-fluid p-4 teal ">
+<div class="container-fluid p-4 c4 ">
     <h3>STADVDB MCO2 Web Application</h3>
 </div>
 
-<div class="container-fluid p-1 d-flex flex-row ">
+<div class="container-fluid pt-3 d-flex flex-column justify-content-center ">
 
-    <div class="container ">
-        Node 1 here
-    </div>
+     <h4>Server Parameters</h4>
 
-    <div class="container">
-        Node 2 here
-    </div>
+     <div class="container d-flex flex-row justify-content-center">
+         
+            <div class="container c2 mx-4 text-start p-4 rounded-3">
+                <span class="fw-bold">Node 1 Status:</span>: {{#if node1-live}}LIVE{{/if}}DEAD
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="node1-switch">
+                
+                </div>
 
-    <div class="container">
-        Node 3 here
-    </div>
+            </div>
+
+            <div class="container c2 mx-4 text-start p-4 rounded-3">
+                <span class="fw-bold">Node 2 Status:</span> {{#if node2-live}}LIVE{{/if}}DEAD
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="node2-switch">
+                
+                </div>
+            </div>
+
+            <div class="container c2 mx-4 text-start p-4 rounded-3">
+                <span class="fw-bold">Node 3 Status:</span> {{#if node3-live}}LIVE{{/if}}DEAD
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="node3-switch">
+                
+                </div>
+            </div>
+
+            <div class="container c2 mx-4 text-start p-4 rounded-3">
+                <span class="fw-bold">Isolation Level: </span> 
+                <select class="form-select" aria-label="iso-level-select">
+                    <option value="1" selected>Read Uncommitted</option>
+                    <option value="2">Read Committed</option>
+                    <option value="3">Read Repeatable</option>
+                    <option value="4">Serializable</option>
+                </select>
+
+            </div>
+     </div>
 
 
 </div>
+
+<div class="container-fluid">
+    <div class="container-fluid my-4">
+        <h4>Transactions</h4>
+    </div>
+
+</div>    
+
+
