@@ -24,9 +24,9 @@ const mysql = require('mysql2');
 const mysqlpromise = require('mysql2/promise');
 const config = require('./config/nodes'); // nodes
 
-const node1 = mysql.createConnection(config.db1);
+//const node1 = mysql.createConnection(config.db1);
 const node2 = mysql.createConnection(config.db2);
-const node3 = mysql.createConnection(config.db3);
+//const node3 = mysql.createConnection(config.db3);
 
 // NODE 2 CONNECTION
 node2.connect(function(err) {
@@ -43,4 +43,6 @@ node2.connect(function(err) {
 node2.execute("SELECT * FROM movies WHERE movie_id=?",[6],(err,result)=>{
     console.log(result);
 });
+
+
 
